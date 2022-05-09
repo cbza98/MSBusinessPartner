@@ -10,13 +10,13 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.TemplateNTT.application.Validation.Class.BusinessPartnerValidator;
+import com.TemplateNTT.application.Validation.Class.Validator;
 
 @Target({ FIELD })
 @Retention(RUNTIME)
-@Constraint(validatedBy = BusinessPartnerValidator.class)
+@Constraint(validatedBy = Validator.class)
 @Documented
-public @interface BusinessPartner {
+public @interface IValidateBase {
 
 	String message() default "El socio de negocio no es valido.";
 

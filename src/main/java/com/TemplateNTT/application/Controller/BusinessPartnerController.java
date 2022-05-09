@@ -21,43 +21,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
-import com.TemplateNTT.domain.Entity.CreditCard;
-import com.TemplateNTT.infraestructure.Services.CreditCardService;
+import com.TemplateNTT.domain.Entity.BusinessPartner;
+import com.TemplateNTT.infraestructure.Services.BusinessPartnerService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/Credit")
-public class CreditCardController {
+@RequestMapping("/api/BusinessPartner")
+public class BusinessPartnerController {
 	@Autowired
-	private CreditCardService service;
+	private BusinessPartnerService service;
 
 	@GetMapping
-	public Mono<ResponseEntity<Flux<CreditCard>>> FindAll() {
+	public Mono<ResponseEntity<Flux<BusinessPartner>>> FindAll() {
 		return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(service.findAll()));
 	}
 
 	@GetMapping("/{id}")
-	public Mono<CreditCard> findById(@PathVariable String id) {
+	public Mono<BusinessPartner> findById(@PathVariable String id) {
 		return service.findById(id);
 	}
 
 	@PostMapping
-	public Mono<ResponseEntity<Map<String, Object>>> Create(@Valid @RequestBody Mono<CreditCard> request) {
+	public Mono<ResponseEntity<Map<String, Object>>> Create(@Valid @RequestBody Mono<BusinessPartner> request) {
 		Map<String, Object> response = new HashMap<>();
 
 		return request.flatMap(a -> {
 			return service.save(a).map(c -> {
-				response.put("Tarjeta de Credito", c);
-				response.put("mensaje", "Tarjeta de Credito creada con exito");
-				return ResponseEntity.created(URI.create("/api/Account/".concat(c.getCreditcardid().toString())))
+				response.put("BusinessPartner", c);
+				response.put("mensaje", "Succesfull BusinessPartner Created");
+				return ResponseEntity.created(URI.create("/api/BusinessPartner/".concat(c.getCodeBP())))
 						.contentType(MediaType.APPLICATION_JSON_UTF8).body(response);
 			});
 		}).onErrorResume(t -> {
 			return Mono.just(t).cast(WebExchangeBindException.class).flatMap(e -> Mono.just(e.getFieldErrors()))
 					.flatMapMany(Flux::fromIterable)
-					.map(fieldError -> "El campo:" + fieldError.getField() + " " + fieldError.getDefaultMessage())
+					.map(fieldError -> "Message: " + fieldError.getField() + " " + fieldError.getDefaultMessage())
 					.collectList().flatMap(list -> {
 
 						response.put("errors", list);
@@ -72,7 +72,7 @@ public class CreditCardController {
 	}
 
 	@PutMapping("/{id}")
-	public Mono<ResponseEntity<CreditCard>> Update(@PathVariable String id, @RequestBody CreditCard request) {
+	public Mono<ResponseEntity<BusinessPartner>> Update(@PathVariable String id, @RequestBody BusinessPartner request) {
 		return service.update(id, request);
 
 	}

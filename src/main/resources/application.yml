@@ -1,0 +1,7 @@
+spring:
+  data:
+      mongodb:
+        uri: mongodb+srv://trainingdbnttdata:zMaT0bwJ86xps4wN@proyectobootcamp.jyiov.mongodb.net/bspartners
+ 
+server:
+  port: 9090
