@@ -1,8 +1,8 @@
 package com.TemplateNTT.applicationHelpers;
 
 public class GenerateBusinessPartnerCode {
-	public static String Generate(String _DocNum, String TypeBp ) {
-		String newBP =(new StringBuilder()).append(TypeBp).append(_DocNum).toString();  
+	public static String generate(String docNum, String typeBp ) {
+		String newBP =(new StringBuilder()).append(typeBp).append(docNum).toString();  
 		return newBP;
 	}
 

@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class BusinessPartner {
 	
 	@NotBlank
 	@Size(max=19)
+	//@IValidateBase
 	private String docNum;
 	
 	@NotBlank
@@ -42,7 +44,7 @@ public class BusinessPartner {
 	
 	@NotNull
 	@Size(max=1, message ="Business Partner type max length is 1")
-//	@Pattern(regexp = "/C|P/i", message = "Business Partner type not exist the valid values be: C = Company, P - People")
+	@Pattern(regexp = "[cpCP]", message = "Business Partner type not exist the valid values be: C = Company, P - People")
 	
 	private String type;
 	

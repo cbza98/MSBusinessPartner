@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.TemplateNTT.applicationHelpers.GenerateBusinessPartnerCode;
 import com.TemplateNTT.domain.Entity.BusinessPartner;
+import com.TemplateNTT.domain.Exception.EntityAlreadyExistsException;
 import com.TemplateNTT.domain.Repository.BusinessPartnerRepository;
 import com.TemplateNTT.infraestructure.Intefaces.IBusinessPartnerService;
 
@@ -26,26 +27,35 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 
 	@Override
 	public Mono<BusinessPartner> save(BusinessPartner _request) {
-	    BusinessPartner a = 
-		BusinessPartner.builder().codeBP(GenerateBusinessPartnerCode.Generate(_request.getDocNum(), _request.getType()))
-				   .contactPerson(_request.getContactPerson())
-				   .creditCard(_request.getCreditCard())
-				   .creditCardLine(_request.getCreditCardLine())
-				   .creditLine(_request.getCreditLine())
-				   .debitCard(_request.getDebitCard())
-				   .debitLine(_request.getDebitLine())
-				   .docNum(_request.getDocNum())
-				   .docType(_request.getDocType())
-				   .email(_request.getEmail())
-				   .name(_request.getName())
-				   .telephone1(_request.getTelephone1())
-				   .telephone2(_request.getTelephone2())
-				   .type(_request.getType())
-				   .valid(true)
-				   .build();
 		
+		return repository.existsById(GenerateBusinessPartnerCode.generate(_request.getDocNum(), _request.getType())).flatMap(exists->{
 		
-		return repository.save(a);
+								if(exists) {
+									System.out.print("BusinesPartner ya inscrito");
+									return Mono.error(new EntityAlreadyExistsException());
+								}
+								
+	    						BusinessPartner a =  BusinessPartner.builder().codeBP(GenerateBusinessPartnerCode.generate(_request.getDocNum(), _request.getType()))
+	    											   .contactPerson(_request.getContactPerson())
+	    											   .creditCard(_request.getCreditCard())
+	    											   .creditCardLine(_request.getCreditCardLine())
+	    											   .creditLine(_request.getCreditLine())
+	    											   .debitCard(_request.getDebitCard())
+	    											   .debitLine(_request.getDebitLine())
+	    											   .docNum(_request.getDocNum())
+	    											   .docType(_request.getDocType())
+	    											   .email(_request.getEmail())
+	    											   .name(_request.getName())
+	    											   .telephone1(_request.getTelephone1())
+	    											   .telephone2(_request.getTelephone2())
+	    											   .type(_request.getType())
+	    											   .valid(true)
+	    											   .build();
+	    							 return repository.save(a);
+	    						
+	    						
+	    					});
+		
 
 	}
 
