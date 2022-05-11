@@ -31,7 +31,7 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 		return repository.existsById(GenerateBusinessPartnerCode.generate(_request.getDocNum(), _request.getType())).flatMap(exists->{
 		
 								if(exists) {
-									System.out.print("BusinesPartner ya inscrito");
+									//System.out.print("BusinesPartner ya inscrito");
 									return Mono.error(new EntityAlreadyExistsException());
 								}
 								
