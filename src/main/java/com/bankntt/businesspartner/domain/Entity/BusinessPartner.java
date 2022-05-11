@@ -1,4 +1,4 @@
-package com.TemplateNTT.domain.Entity;
+package com.bankntt.businesspartner.domain.Entity;
 
 import java.math.BigDecimal;
 

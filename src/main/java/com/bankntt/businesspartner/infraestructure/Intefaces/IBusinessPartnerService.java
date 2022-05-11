@@ -1,6 +1,6 @@
-package com.TemplateNTT.infraestructure.Intefaces;
+package com.bankntt.businesspartner.infraestructure.Intefaces;
 
-import com.TemplateNTT.domain.Entity.BusinessPartner;
+import com.bankntt.businesspartner.domain.Entity.BusinessPartner;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

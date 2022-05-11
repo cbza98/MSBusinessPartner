@@ -1,4 +1,4 @@
-package com.TemplateNTT.application.Controller;
+package com.bankntt.businesspartner.application.Controller;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
-import com.TemplateNTT.domain.Exception.EntityAlreadyExistsException;
+import com.bankntt.businesspartner.domain.Exception.EntityAlreadyExistsException;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

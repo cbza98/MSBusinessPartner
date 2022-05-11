@@ -1,4 +1,4 @@
-package com.TemplateNTT.application.Controller;
+package com.bankntt.businesspartner.application.Controller;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.TemplateNTT.domain.Entity.BusinessPartner;
-import com.TemplateNTT.infraestructure.Services.BusinessPartnerService;
+import com.bankntt.businesspartner.domain.Entity.BusinessPartner;
+import com.bankntt.businesspartner.infraestructure.Services.BusinessPartnerService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

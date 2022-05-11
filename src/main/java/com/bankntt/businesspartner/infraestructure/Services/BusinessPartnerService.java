@@ -1,15 +1,15 @@
-package com.TemplateNTT.infraestructure.Services;
+package com.bankntt.businesspartner.infraestructure.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.TemplateNTT.applicationHelpers.GenerateBusinessPartnerCode;
-import com.TemplateNTT.domain.Entity.BusinessPartner;
-import com.TemplateNTT.domain.Exception.EntityAlreadyExistsException;
-import com.TemplateNTT.domain.Repository.BusinessPartnerRepository;
-import com.TemplateNTT.infraestructure.Intefaces.IBusinessPartnerService;
+import com.bankntt.businesspartner.applicationHelpers.GenerateBusinessPartnerCode;
+import com.bankntt.businesspartner.domain.Entity.BusinessPartner;
+import com.bankntt.businesspartner.domain.Exception.EntityAlreadyExistsException;
+import com.bankntt.businesspartner.domain.Repository.BusinessPartnerRepository;
+import com.bankntt.businesspartner.infraestructure.Intefaces.IBusinessPartnerService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

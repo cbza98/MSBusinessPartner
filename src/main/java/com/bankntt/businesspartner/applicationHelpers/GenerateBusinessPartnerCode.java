@@ -1,4 +1,4 @@
-package com.TemplateNTT.applicationHelpers;
+package com.bankntt.businesspartner.applicationHelpers;
 
 public class GenerateBusinessPartnerCode {
 	public static String generate(String docNum, String typeBp ) {
