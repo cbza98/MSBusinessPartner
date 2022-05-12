@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bankntt.businesspartner.applicationHelpers.GenerateBusinessPartnerCode;
 import com.bankntt.businesspartner.domain.Entity.BusinessPartner;
 import com.bankntt.businesspartner.domain.Exception.EntityAlreadyExistsException;
+import com.bankntt.businesspartner.domain.Exception.EntityNotExistsException;
 import com.bankntt.businesspartner.domain.Repository.BusinessPartnerRepository;
 import com.bankntt.businesspartner.infraestructure.Intefaces.IBusinessPartnerService;
 
@@ -65,8 +66,16 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 	}
 
 	@Override
-	public Mono<BusinessPartner> findById(String Id) {
-		return repository.findById(Id);
+	public Mono<BusinessPartner> findById(String id) {
+		
+		return repository.existsById(id).flatMap(exists->{
+			
+			if(!exists) {
+				//System.out.print("BusinesPartner ya inscrito");
+				return Mono.error(new EntityNotExistsException());
+			}
+			return repository.findById(id);
+		});
 	}
 
 	public Mono<ResponseEntity<BusinessPartner>> update(String id, BusinessPartner _request) {

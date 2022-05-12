@@ -1,6 +1,6 @@
 package com.bankntt.businesspartner.domain.Exception;
 
-public class EntityNotExists extends Exception{
+public class EntityNotExistsException extends Exception{
 	/**
 	 * 
 	 */
@@ -8,7 +8,7 @@ public class EntityNotExists extends Exception{
 	
 	final private String message="The Business Partner doesn't exists";
 
-	public EntityNotExists() {
+	public EntityNotExistsException() {
 	
 	}
 

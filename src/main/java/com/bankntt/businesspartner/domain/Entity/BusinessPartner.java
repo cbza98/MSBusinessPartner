@@ -35,7 +35,6 @@ public class BusinessPartner {
 	
 	@NotBlank
 	@Size(max=19)
-	//@IValidateBase
 	private String docNum;
 	
 	@NotBlank

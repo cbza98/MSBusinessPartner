@@ -24,7 +24,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/BusinessPartner")
+@RequestMapping("/BusinessPartnerService/BusinessPartner")
 public class BusinessPartnerController {
 	@Autowired
 	private BusinessPartnerService service;
