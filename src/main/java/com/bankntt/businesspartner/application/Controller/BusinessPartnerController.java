@@ -42,12 +42,13 @@ public class BusinessPartnerController {
 	@PostMapping
 	public Mono<ResponseEntity<Map<String, Object>>> Create(@Valid @RequestBody Mono<BusinessPartner> request) {
 		Map<String, Object> response = new HashMap<>();
-
+							
+							
 		return request.flatMap(a -> {
 			return service.save(a).map(c -> {
 				response.put("BusinessPartner", c);
 				response.put("mensaje", "Succesfull BusinessPartner Created");
-				return ResponseEntity.created(URI.create("/api/BusinessPartner/".concat(c.getCodeBP())))
+				return ResponseEntity.created(URI.create("/api/BusinessPartner/".concat(c.getId())))
 						.contentType(MediaType.APPLICATION_JSON).body(response);
 			});
 		});
@@ -57,6 +58,21 @@ public class BusinessPartnerController {
 	public Mono<ResponseEntity<Void>> Delete(@PathVariable String id) {
 		return service.delete(id).map(r -> ResponseEntity.ok().<Void>build())
 				.defaultIfEmpty(ResponseEntity.notFound().build());
+	}
+	
+	@PostMapping("/saveBulk")
+	public Mono<ResponseEntity<Map<String, Object>>> saveBulk(@RequestBody Flux<BusinessPartner> businessPartnerList) {
+		
+		Map<String, Object> response = new HashMap<>();
+				
+		return businessPartnerList.collectList()
+				.flatMap(a -> service.saveAll(a).collectList())
+				.map(c -> {
+					response.put("BusinessPartners", c);
+					response.put("mensaje", "Succesfull BusinessPartner Created");
+					return ResponseEntity.created(URI.create("/api/BusinessPartner/"))
+							.contentType(MediaType.APPLICATION_JSON).body(response);
+				});
 	}
 
 }

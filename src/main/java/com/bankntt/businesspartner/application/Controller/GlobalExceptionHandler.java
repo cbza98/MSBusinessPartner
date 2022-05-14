@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 		
 		 Map<String, Object>	response = new HashMap<>();
 		
-		 log.warn(MarkerFactory.getMarker("VALID"),ex.getMessage());
+		 log.warn(MarkerFactory.getMarker("VALID"),ex.getMessage(),ex);
 		 return Mono.just(ex)
 	    	     .map(error->error.getMessage())    
 	    	     .flatMap(msg->{

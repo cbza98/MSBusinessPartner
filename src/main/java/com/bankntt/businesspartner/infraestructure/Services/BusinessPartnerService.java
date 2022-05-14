@@ -1,5 +1,7 @@
 package com.bankntt.businesspartner.infraestructure.Services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,7 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 									return Mono.error(new EntityAlreadyExistsException());
 								}
 								
-	    						BusinessPartner a =  BusinessPartner.builder().codeBP(GenerateBusinessPartnerCode.generate(_request.getDocNum(), _request.getType()))
+	    						BusinessPartner a =  BusinessPartner.builder().id(GenerateBusinessPartnerCode.generate(_request.getDocNum(), _request.getType()))
 	    											   .contactPerson(_request.getContactPerson())
 	    											   .creditCard(_request.getCreditCard())
 	    											   .creditCardLine(_request.getCreditCardLine())
@@ -69,9 +71,7 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 	public Mono<BusinessPartner> findById(String id) {
 		
 		return repository.existsById(id).flatMap(exists->{
-			
 			if(!exists) {
-				//System.out.print("BusinesPartner ya inscrito");
 				return Mono.error(new EntityNotExistsException());
 			}
 			return repository.findById(id);
@@ -101,5 +101,9 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 			return repository.save(a);
 		}).map(updated -> new ResponseEntity<>(updated, HttpStatus.OK))
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.OK));
+	}
+
+	public Flux<BusinessPartner> saveAll(List<BusinessPartner> list ) {
+		return repository.saveAll(list);
 	}
 }

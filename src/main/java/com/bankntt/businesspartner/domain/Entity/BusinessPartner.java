@@ -6,12 +6,13 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.bankntt.businesspartner.domain.validation.interfaces.BusinessPartnerTypeValidation;
+import com.bankntt.businesspartner.domain.validation.interfaces.DocTypeValidation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,13 +25,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection="BusinessPartner")
+@Document(collection = "BusinessPartner")
 public class BusinessPartner {
 	@Id
-	private String codeBP;
+	private String id;
 	
 	@NotNull
-	@Pattern(regexp = "/00|01|04|07|06|A/i", message = "Business Partner Document type not exist the valid values be: 00=OTROS TIPOS DE DOCUMENTOS, 01=DOCUMENTO NACIONAL DE IDENTIDAD (DNI), 04=CARNET DE EXTRANJERIA, 06=REGISTRO UNICO DE CONTRIBUYENTES, 07=PASAPORTE, A=CEDULA DIPLOMATICA")
+	@DocTypeValidation
 	private String docType;
 	
 	@NotBlank
@@ -42,9 +43,7 @@ public class BusinessPartner {
 	private String name;
 	
 	@NotNull
-	@Size(max=1, message ="Business Partner type max length is 1")
-	@Pattern(regexp = "[cpCP]", message = "Business Partner type not exist the valid values be: C = Company, P - People")
-	
+	@BusinessPartnerTypeValidation	
 	private String type;
 	
 	
