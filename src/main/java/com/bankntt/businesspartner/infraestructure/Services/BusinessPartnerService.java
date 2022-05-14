@@ -104,6 +104,9 @@ public class BusinessPartnerService implements IBusinessPartnerService {
 	}
 
 	public Flux<BusinessPartner> saveAll(List<BusinessPartner> list ) {
+		
+		list.forEach(li->GenerateBusinessPartnerCode.generate(li.getDocNum(), li.getType()));
+		
 		return repository.saveAll(list);
 	}
 }
