@@ -1,4 +1,4 @@
-package com.bankntt.businesspartner.domain.Entity;
+package com.bankntt.businesspartner.domain.entity;
 
 import java.math.BigDecimal;
 
@@ -28,7 +28,7 @@ import lombok.Setter;
 @Document(collection = "BusinessPartner")
 public class BusinessPartner {
 	@Id
-	private String id;
+	private String businessPartnerId;
 	
 	@NotNull
 	@DocTypeValidation

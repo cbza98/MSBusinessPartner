@@ -1,4 +1,4 @@
-package com.bankntt.businesspartner.application.Controller;
+package com.bankntt.businesspartner.application.controller;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankntt.businesspartner.domain.Entity.BusinessPartner;
+import com.bankntt.businesspartner.domain.entity.BusinessPartner;
 import com.bankntt.businesspartner.infraestructure.Services.BusinessPartnerService;
 
 import reactor.core.publisher.Flux;
@@ -26,6 +27,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/BusinessPartnerService/BusinessPartner")
 public class BusinessPartnerController {
+	
 	@Autowired
 	private BusinessPartnerService service;
 
@@ -40,7 +42,7 @@ public class BusinessPartnerController {
 	}
 
 	@PostMapping
-	public Mono<ResponseEntity<Map<String, Object>>> Create(@Valid @RequestBody Mono<BusinessPartner> request) {
+	public Mono<ResponseEntity<Map<String, Object>>> create(@Valid @RequestBody Mono<BusinessPartner> request) {
 		Map<String, Object> response = new HashMap<>();
 							
 							
@@ -48,20 +50,46 @@ public class BusinessPartnerController {
 			return service.save(a).map(c -> {
 				response.put("BusinessPartner", c);
 				response.put("mensaje", "Succesfull BusinessPartner Created");
-				return ResponseEntity.created(URI.create("/api/BusinessPartner/".concat(c.getId())))
+				return ResponseEntity
+						.created(URI.create("/api/BusinessPartner/".concat(c.getBusinessPartnerId())))
 						.contentType(MediaType.APPLICATION_JSON).body(response);
+			});
+		});
+	}
+	
+	@PutMapping
+	public Mono<ResponseEntity<Map<String, Object>>> update(@Valid @RequestBody Mono<BusinessPartner> request) {
+		Map<String, Object> response = new HashMap<>();
+		
+		return request.flatMap(a -> {
+			return service.update(a).map(c -> {
+				response.put("BusinessPartner", c);
+				response.put("mensaje", "Succesfull BusinessPartner Updated");
+				return ResponseEntity.ok()
+					   .contentType(MediaType.APPLICATION_JSON)
+					   .location( URI.create("/api/BusinessPartner/".concat(c.getBusinessPartnerId())))
+					   .body(response);
 			});
 		});
 	}
 
 	@DeleteMapping("/{id}")
-	public Mono<ResponseEntity<Void>> Delete(@PathVariable String id) {
-		return service.delete(id).map(r -> ResponseEntity.ok().<Void>build())
-				.defaultIfEmpty(ResponseEntity.notFound().build());
+	public Mono<ResponseEntity<Map<String, Object>>> Delete(@PathVariable String id) {
+		Map<String, Object> response = new HashMap<>();
+		
+		return service.delete(id)
+				.map(c -> {
+					response.put("BusinessPartner", c);
+					response.put("mensaje", "Succesfull BusinessPartner Deleted");
+					return ResponseEntity.ok()
+							   .contentType(MediaType.APPLICATION_JSON)
+							   .location( URI.create("/api/BusinessPartner/".concat(c.getBusinessPartnerId())))
+							   .body(response);
+				});
 	}
 	
-	@PostMapping("/saveBulk")
-	public Mono<ResponseEntity<Map<String, Object>>> saveBulk(@RequestBody Flux<BusinessPartner> businessPartnerList) {
+	@PostMapping("/SaveAll")
+	public Mono<ResponseEntity<Map<String, Object>>> saveBulk(@Valid @RequestBody Flux<BusinessPartner> businessPartnerList) {
 		
 		Map<String, Object> response = new HashMap<>();
 				
@@ -70,7 +98,8 @@ public class BusinessPartnerController {
 				.map(c -> {
 					response.put("BusinessPartners", c);
 					response.put("mensaje", "Succesfull BusinessPartner Created");
-					return ResponseEntity.created(URI.create("/api/BusinessPartner/"))
+					return ResponseEntity
+							.created(URI.create("/api/BusinessPartner/"))
 							.contentType(MediaType.APPLICATION_JSON).body(response);
 				});
 	}

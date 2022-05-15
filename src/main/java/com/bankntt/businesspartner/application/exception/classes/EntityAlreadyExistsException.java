@@ -1,4 +1,4 @@
-package com.bankntt.businesspartner.domain.Exception;
+package com.bankntt.businesspartner.application.exception.classes;
 
 public class EntityAlreadyExistsException extends Exception {
 	/**
